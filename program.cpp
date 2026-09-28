@@ -41,11 +41,11 @@ int main(){
   
   while (running){
     getInput(input);
-    //for (auto it = commands.begin(); it != commands.end(); it++){
-    //}
-    a++;
-    if (a==5){
-      running = false;
+    if (strncmp(input,print,strlen(print)) == 0){
+    } else if (strncmp(input,add,strlen(add)) == 0){
+    } else if (strncmp(input,del,strlen(del)) == 0){
+    } else if (strncmp(input,quit,strlen(quit)) == 0){
     }
+
   }
 }

@@ -30,10 +30,34 @@ void getTextInput(char (&input)[81], char prompt[81]){
 }
 
 void getFloatInput(float &input, char prompt[81]){
-  
+  bool noinput = true;
+  char error[22] = "Enter a Valid Number!";
+  while (noinput){
+    cout << prompt;cin >> input;
+    cin.ignore(99999,'\n');
+    if (cin.fail){
+      cout << endl << error << endl << prompt;
+      cin.clear();
+    } else {
+      noinput = false;
+    }
+  }
 }
 
-void get
+void getIntInput(int &input, char prompt[81]){
+  bool noinput = true;
+  char error[22] = "Enter a Valid Number!";
+  while (noinput){cout << prompt;cin >> input;
+    cin.ignore(99999,'\n');
+    if (cin.fail){
+      cout << endl << error << endl << prompt;
+      cin.clear();
+    } else {
+      noinput = false;
+    }
+  }
+}
+
 
 void printStudents(vector<student*> studentList){
   char spacer[3] = ", ";

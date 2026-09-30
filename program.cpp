@@ -68,7 +68,13 @@ void printStudents(vector<student*> studentList){
     cout << *studentList[it].gpa << endl;
   }
 }
-  
+
+void delStudent(vector<student*> studentList, int id){
+  for (iterator it = studentList.start(); it != studentList.end(); it++){
+    if (*studentList[it].id == id){
+      delete *studentlist[it];
+    }
+  }
 }
 
 int main(){
@@ -86,22 +92,20 @@ int main(){
   char add[4] = "ADD";
   char del[7] = "DELETE";
   char quit[5] = "QUIT";
+
   struct student {
     float gpa;
     int id;
     char first,last;
   };
-
-    
-    
-  };
+  
   vector<student*> studentList = {};
   
   
   while (running){
     getTextInput(input,commandPrompt);
     if (strncmp(input,print,strlen(print)) == 0){
-      
+      printStudents(studentList)
     } else if (strncmp(input,add,strlen(add)) == 0){
       getTextInput(input1, fNameLabel);
       getTextInput(input2, lNameLabel);
@@ -109,7 +113,10 @@ int main(){
       getFloatInput(floatInput, gpaLabel);
       vector.push_back(new student{floatInput,intInput,{input1,input2}});
     } else if (strncmp(input,del,strlen(del)) == 0){
+      getIntInput(intInput, idLabel);
+      delStudent(studentList,intInput);
     } else if (strncmp(input,quit,strlen(quit)) == 0){
+      running = false;
     }
 
   }

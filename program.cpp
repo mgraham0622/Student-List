@@ -35,7 +35,7 @@ void getFloatInput(float &input, char prompt[81]){
   while (noinput){
     cout << prompt;cin >> input;
     cin.ignore(99999,'\n');
-    if (cin.fail){
+    if (cin.fail()){
       cout << endl << error << endl << prompt;
       cin.clear();
     } else {
@@ -49,7 +49,7 @@ void getIntInput(int &input, char prompt[81]){
   char error[22] = "Enter a Valid Number!";
   while (noinput){cout << prompt;cin >> input;
     cin.ignore(99999,'\n');
-    if (cin.fail){
+    if (cin.fail()){
       cout << endl << error << endl << prompt;
       cin.clear();
     } else {
@@ -58,21 +58,37 @@ void getIntInput(int &input, char prompt[81]){
   }
 }
 
+struct student {
+  float gpa;
+  int id;
+  char first[81];
+  char last[81];
+  void getValues(){
+    char idPrompt[81] = "ID: ";
+    char gpaPrompt[81] = "GPA: ";
+    char fNamePrompt[81] = "First Name: ";
+    char lNamePrompt[81] = "Last Name: ";
+    getIntInput(id, idPrompt);
+    getFloatInput(gpa, gpaPrompt);
+    getTextInput(first, fNamePrompt);
+    getTextInput(last, lNamePrompt);
+  }
+};
 
 void printStudents(vector<student*> studentList){
   char spacer[3] = ", ";
-  for (iterator it = studentList.start(); it != studentList.end(); it++){
-    cout << *studentList[it].first << spacer;
-    cout << *studentList[it].last << spacer;
-    cout << *studentList[it].id << spacer;
-    cout << *studentList[it].gpa << endl;
+  for (auto it = studentList.begin(); it != studentList.end(); it++){
+    cout << *it.first << spacer;
+    cout << *it.last << spacer;
+    cout << *it.id << spacer;
+    cout << *it.gpa << endl;
   }
 }
 
 void delStudent(vector<student*> studentList, int id){
-  for (iterator it = studentList.start(); it != studentList.end(); it++){
-    if (*studentList[it].id == id){
-      delete *studentlist[it];
+  for (auto it = studentList.begin(); it != studentList.end(); it++){
+    if (*it.id == id){
+      delete *it;
     }
   }
 }
@@ -84,38 +100,26 @@ int main(){
   int intInput;
   char commandPrompt[16] = "enter command: ";
   char gpaLabel[81] = "GPA: ";
-  char idLabel[81] = "ID: ";
-  char fNameLabel[81] = "First Name: ";
-  char lNameLabel[81] = "Last Name: ";
   bool running = true;
   char print[6] = "PRINT";
   char add[4] = "ADD";
   char del[7] = "DELETE";
   char quit[5] = "QUIT";
-
-  struct student {
-    float gpa;
-    int id;
-    char first,last;
-  };
   
   vector<student*> studentList = {};
   
   
   while (running){
-    getTextInput(input,commandPrompt);
-    if (strncmp(input,print,strlen(print)) == 0){
-      printStudents(studentList)
-    } else if (strncmp(input,add,strlen(add)) == 0){
-      getTextInput(input1, fNameLabel);
-      getTextInput(input2, lNameLabel);
-      getIntInput(intInput, idLabel);
-      getFloatInput(floatInput, gpaLabel);
-      vector.push_back(new student{floatInput,intInput,{input1,input2}});
-    } else if (strncmp(input,del,strlen(del)) == 0){
+    getTextInput(input1,commandPrompt);
+    if (strncmp(input1,print,strlen(print)) == 0){
+      printStudents(studentList);
+    } else if (strncmp(input1,add,strlen(add)) == 0){
+      studentList.push_back(new student);
+      (*studentList.back()).getValues();
+    } else if (strncmp(input1,del,strlen(del)) == 0){
       getIntInput(intInput, idLabel);
       delStudent(studentList,intInput);
-    } else if (strncmp(input,quit,strlen(quit)) == 0){
+    } else if (strncmp(input1,quit,strlen(quit)) == 0){
       running = false;
     }
 

@@ -47,8 +47,9 @@ void getFloatInput(float &input, char prompt[81]){
 void getIntInput(int &input, char prompt[81]){
   bool noinput = true;
   char error[22] = "Enter a Valid Number!";
-  while (noinput){cout << prompt;cin >> input;
-    cin.ignore(99999,'\n');
+  while (noinput){
+    cout << prompt;
+    cin >> input;
     if (cin.fail()){
       cout << endl << error << endl << prompt;
       cin.clear();
@@ -78,17 +79,19 @@ struct student {
 void printStudents(vector<student*> studentList){
   char spacer[3] = ", ";
   for (auto it = studentList.begin(); it != studentList.end(); it++){
-    cout << *it.first << spacer;
-    cout << *it.last << spacer;
-    cout << *it.id << spacer;
-    cout << *it.gpa << endl;
+    cout << (**it).first << spacer;
+    cout << (**it).last << spacer;
+    cout << (**it).id << spacer;
+    cout << (**it).gpa << endl;
   }
 }
 
 void delStudent(vector<student*> studentList, int id){
   for (auto it = studentList.begin(); it != studentList.end(); it++){
-    if (*it.id == id){
+    if ((**it).id == id){
+      cout << "hi";
       delete *it;
+
     }
   }
 }
@@ -99,7 +102,7 @@ int main(){
   float floatInput;
   int intInput;
   char commandPrompt[16] = "enter command: ";
-  char gpaLabel[81] = "GPA: ";
+  char idLabel[81] = "ID: ";
   bool running = true;
   char print[6] = "PRINT";
   char add[4] = "ADD";

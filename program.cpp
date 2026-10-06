@@ -2,6 +2,7 @@
 #include<cstring>
 #include<cctype>
 #include<vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,8 +25,7 @@ void strip(char (&input)[81]){
 
 void getTextInput(char (&input)[81], char prompt[81]){
   cout << prompt;
-  cin.get(input,81);
-  cin.ignore(99999,'\n');
+  cin.getline(input,81);
   strip(input);
 }
 
@@ -33,14 +33,15 @@ void getFloatInput(float &input, char prompt[81]){
   bool noinput = true;
   char error[22] = "Enter a Valid Number!";
   while (noinput){
-    cout << prompt;cin >> input;
-    cin.ignore(99999,'\n');
+    cout << prompt;
+    cin >> input;
     if (cin.fail()){
       cout << endl << error << endl << prompt;
       cin.clear();
     } else {
       noinput = false;
     }
+    cin.ignore(99999,'\n');
   }
 }
 
@@ -56,6 +57,7 @@ void getIntInput(int &input, char prompt[81]){
     } else {
       noinput = false;
     }
+    cin.ignore(99999,'\n');
   }
 }
 
@@ -86,14 +88,15 @@ void printStudents(vector<student*> studentList){
   }
 }
 
-void delStudent(vector<student*> studentList, int id){
+void delStudent(vector<student*> &studentList, int num){
+  student* toDelete;
   for (auto it = studentList.begin(); it != studentList.end(); it++){
-    if ((**it).id == id){
-      cout << "hi";
-      delete *it;
-
-    }
+    if ((**it).id == num){
+      toDelete = *it;
+    }  
   }
+  studentList.erase(remove_if(studentList.begin(),studentList.end(), [num](student* x){return (*x).id == num;}));
+  delete toDelete;
 }
 
 int main(){
@@ -108,9 +111,10 @@ int main(){
   char add[4] = "ADD";
   char del[7] = "DELETE";
   char quit[5] = "QUIT";
+
+  int counter = 0;
   
   vector<student*> studentList = {};
-  
   
   while (running){
     getTextInput(input1,commandPrompt);
@@ -124,7 +128,9 @@ int main(){
       delStudent(studentList,intInput);
     } else if (strncmp(input1,quit,strlen(quit)) == 0){
       running = false;
+    } else if (counter == 5){
+      running = false;
     }
-
+    counter++;
   }
 }

@@ -66,12 +66,23 @@ struct student {
   int id;
   char first[81];
   char last[81];
-  void getValues(){
+  void getValues(vector<student*> studentList){
+    char sameId[44] = "ID cannot be the same as another student's";
     char idPrompt[81] = "ID: ";
     char gpaPrompt[81] = "GPA: ";
     char fNamePrompt[81] = "First Name: ";
     char lNamePrompt[81] = "Last Name: ";
-    getIntInput(id, idPrompt);
+    bool noID = true;
+    while (noID){
+      getIntInput(id, idPrompt);
+      noID = false;
+      for (auto it = studentList.begin(); it != studentList.end(); it++){
+	if (**it).id == id{
+	    noID = true;
+	    cout << sameID << endl;
+	  }
+      }
+    }
     getFloatInput(gpa, gpaPrompt);
     getTextInput(first, fNamePrompt);
     getTextInput(last, lNamePrompt);

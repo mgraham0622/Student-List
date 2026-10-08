@@ -160,7 +160,7 @@ void delStudent(vector<student*> &studentList, int num){
   if (deleted){
     // deletes pointer from struct that has the matching id
     studentList.erase(remove_if(studentList.begin(),studentList.end(), [num](student* x){return (*x).id == num;}));
-    // deletes data
+    // deletes data and outputs if the data was deleted or the id given did not exist
     delete toDelete;
     cout << deleteMessage << endl;
   } else {
@@ -168,33 +168,41 @@ void delStudent(vector<student*> &studentList, int num){
   }
 }
 
+// main function
 int main(){
+  // sets up variables to store input and defines the different prompt outputs
   char input1[81];
   char input2[81];
   float floatInput;
   int intInput;
   char commandPrompt[16] = "enter command: ";
   char idLabel[81] = "ID: ";
-  bool running = true;
   char print[6] = "PRINT";
   char add[4] = "ADD";
   char del[7] = "DELETE";
   char quit[5] = "QUIT";
 
+  // sets up variables used in running the program
+  bool running = true;	
   int counter = 0;
-  
   vector<student*> studentList = {};
-  
+
+  // asks for commands until quit command is given
   while (running){
+	// gets command from user
     getTextInput(input1,commandPrompt);
+	// prints students if print command is given
     if (strncmp(input1,print,strlen(print)) == 0){
       printStudents(studentList);
+	// if add command is given, adds an empty student struct to the vector and prompts user to fill in its values
     } else if (strncmp(input1,add,strlen(add)) == 0){
       studentList.push_back(new student);
       (*studentList.back()).getValues(studentList);
+	// if delete command given, prompts user for id and calls delete function on that id
     } else if (strncmp(input1,del,strlen(del)) == 0){
       getIntInput(intInput, idLabel);
       delStudent(studentList,intInput);
+	// ends program if quit command given
     } else if (strncmp(input1,quit,strlen(quit)) == 0){
       running = false;
     }
